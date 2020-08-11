@@ -505,7 +505,11 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Tests
                 withStreamId: 1);
 
             // Ping will trigger the stream to be returned to the pool so we can assert it
-            await DoPing();
+            await SendPingAsync(Http2PingFrameFlags.NONE);
+            await ExpectAsync(Http2FrameType.PING,
+                withLength: 8,
+                withFlags: (byte)Http2PingFrameFlags.ACK,
+                withStreamId: 0);
 
             // Stream has been returned to the pool
             Assert.Equal(1, _connection.StreamPool.Count);
@@ -526,15 +530,6 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Tests
             Assert.True(((Http2OutputProducer)pooledStream.Output)._disposed);
 
             await StopConnectionAsync(expectedLastStreamId: 1, ignoreNonGoAwayFrames: false);
-        }
-
-        private async Task DoPing()
-        {
-            await SendPingAsync(Http2PingFrameFlags.NONE);
-            await ExpectAsync(Http2FrameType.PING,
-                withLength: 8,
-                withFlags: (byte)Http2PingFrameFlags.ACK,
-                withStreamId: 0);
         }
 
         [Fact]

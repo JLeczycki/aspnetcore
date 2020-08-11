@@ -84,7 +84,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             int size = _size;
             Http2StreamAsValueType[] array = _array;
 
-            var removeCount = GetRemoveCount(now, size, array);
+            var removeCount = CalculateRemoveCount(now, size, array);
             if (removeCount == 0)
             {
                 return;
@@ -106,7 +106,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             }
 
             // Clear unused array indexes
-            for (int i = newSize; i < size; i++)
+            for (var i = newSize; i < size; i++)
             {
                 array[i] = default;
             }
@@ -114,7 +114,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
             _size = size - removeCount;
         }
 
-        private static int GetRemoveCount(long now, int size, Http2StreamAsValueType[] array)
+        private static int CalculateRemoveCount(long now, int size, Http2StreamAsValueType[] array)
         {
             for (var i = 0; i < size; i++)
             {
