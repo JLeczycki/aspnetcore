@@ -6274,7 +6274,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             ref StringValues values = ref Unsafe.AsRef<StringValues>(null);
             var flag = 0L;
 
-            // Does the name matched any "known" headers
+            // Does the name match any "known" headers
             switch (name.Length)
             {
                 case 2:
