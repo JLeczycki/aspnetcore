@@ -1072,7 +1072,7 @@ $@"        private void Clear(long bitsToClear)
             ref StringValues values = ref Unsafe.AsRef<StringValues>(null);
             var flag = 0L;
 
-            // Does the name matched any ""known"" headers
+            // Does the name match any ""known"" headers
             {AppendSwitch(loop.Headers.GroupBy(x => x.Name.Length).OrderBy(x => x.Key))}
 
             if (flag != 0)
