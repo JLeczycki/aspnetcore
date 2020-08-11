@@ -24,7 +24,7 @@ namespace CodeGenerator
                 "Accept",
                 "Connection",
                 "Host",
-                "User-Agent"
+                "User-Agent",
             };
             var responsePrimaryHeaders = new[]
             {
